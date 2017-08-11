@@ -1,0 +1,51 @@
+import sys, os, inspect
+from PyQt5.QtWidgets import QWidget, QTreeWidgetItem, QMessageBox, QTreeWidget
+from PyQt5.QtGui import QBrush, QPixmap, QFont
+from PyQt5.QtCore import Qt
+from PyQt5 import uic
+directory = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0]))
+sys.path.append(directory + "/lib")
+from bbdd import Bbdd
+
+
+class Proveedores(QWidget):
+	def __init__(self, mainWindows):
+		QWidget.__init__(self)
+		uic.loadUi(directory + "/../ui/clientes.ui", self)
+		self.mainWindows = mainWindows
+		mainWindows.diconnectActions()
+		mainWindows.aNuevo.triggered.connect(mainWindows.nuevoProveedor)
+		self.mainWindows.setWindowTitle("Proveedores | Arroyo v" + mainWindows.version)
+		self.treeMain.header().hideSection(0)
+		self.initTree()
+		self.treeMain.itemSelectionChanged.connect(self.changeItem)
+		self.mainWindows.aEditar.triggered.connect(self.editItem)
+		self.mainWindows.aVer.triggered.connect(self.viewItem)
+
+		self.itemSelected = -1
+
+	def initTree(self):
+		bd = Bbdd()
+		data = bd.select("proveedor", "name")
+
+		items = []
+		for i in data:
+			id = i[0]
+			nombre = i[1]
+
+			item = QTreeWidgetItem([str(id), str(nombre)])
+			items.append(item)
+
+		self.treeMain.addTopLevelItems(items)
+
+		bd.close()
+
+	def changeItem(self):
+		self.itemSelected = self.treeMain.currentItem().text(0)
+		self.mainWindows.enableActions()
+
+	def editItem(self):
+		self.mainWindows.editarProveedor(self.itemSelected)
+
+	def viewItem(self):
+		self.mainWindows.verProveedor(self.itemSelected)
