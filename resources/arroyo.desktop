@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Arroyo
+Comment=Contabilidad arroyo
+Exec=arroyo
+Icon=arroyo.png
+Terminal=false
+Type=Application

@@ -41,19 +41,13 @@ class Contabilidad(QWidget):
 			t2 = 0.0 if i[2] is None else i[2]
 			t3 = 0.0 if i[3] is None else i[3]
 			t4 = 0.0 if i[4] is None else i[4]
-			total[0] += t1
-			total[1] += t2
-			total[2] += t3
-			total[3] += t4
-			item = QTreeWidgetItem([nombre, str(t1) + "€", str(t2) + "€", str(t3) + "€", str(t4) + "€"])
+			total = t1 + t2 + t3 +t4
+			item = QTreeWidgetItem([nombre, str(t1) + "€", str(t2) + "€", str(t3) + "€", str(t4) + "€", str(total) + "€"])
 			items.append(item)
 
-		item = QTreeWidgetItem(["TOTAL", str(total[0]) + "€", str(total[1]) + "€", str(total[2]) + "€", str(total[3]) + "€"])
-		items.append(paint_row(item))
 		self.treeClientes.addTopLevelItems(items)
 
 		# Proveedores
-		total = [0, 0, 0, 0]
 		datos = bd.executeQuery("SELECT id, (select sum(importe) FROM factura_proveedor WHERE fecha between '" + \
 		                        str(self.anyo) + "-01-01' and '" + str(self.anyo) + "-03-31' AND proveedor = proveedor.id)," \
 		                        " (select sum(importe) FROM factura_proveedor WHERE fecha between '" + str(self.anyo) + \
@@ -70,15 +64,10 @@ class Contabilidad(QWidget):
 			t2 = 0.0 if i[2] is None else i[2]
 			t3 = 0.0 if i[3] is None else i[3]
 			t4 = 0.0 if i[4] is None else i[4]
-			total[0] += t1
-			total[1] += t2
-			total[2] += t3
-			total[3] += t4
-			item = QTreeWidgetItem([nombre, str(t1) + "€", str(t2) + "€", str(t3) + "€", str(t4) + "€"])
+			total = t1 + t2 + t3 + t4
+			item = QTreeWidgetItem([nombre, str(t1) + "€", str(t2) + "€", str(t3) + "€", str(t4) + "€", str(total) + "€"])
 			items.append(item)
 
-		item = QTreeWidgetItem(["TOTAL", str(total[0]) + "€", str(total[1]) + "€", str(total[2]) + "€", str(total[3]) + "€"])
-		items.append(paint_row(item))
 		self.treeProveedores.addTopLevelItems(items)
 
 		# Gastos
@@ -99,15 +88,10 @@ class Contabilidad(QWidget):
 			t2 = 0.0 if i[2] is None else i[2]
 			t3 = 0.0 if i[3] is None else i[3]
 			t4 = 0.0 if i[4] is None else i[4]
-			total[0] += t1
-			total[1] += t2
-			total[2] += t3
-			total[3] += t4
-			item = QTreeWidgetItem([nombre, str(t1) + "€", str(t2) + "€", str(t3) + "€", str(t4) + "€"])
+			total = t1 + t2 + t3 + t4
+			item = QTreeWidgetItem([nombre, str(t1) + "€", str(t2) + "€", str(t3) + "€", str(t4) + "€", str(total) + "€"])
 			items.append(item)
 
-		item = QTreeWidgetItem(["TOTAL", str(total[0]) + "€", str(total[1]) + "€", str(total[2]) + "€", str(total[3]) + "€"])
-		items.append(paint_row(item))
 		self.treeGastos.addTopLevelItems(items)
 
 		bd.close()
